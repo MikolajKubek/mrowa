@@ -4,6 +4,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class LangtonsAnt implements CelluralAutomata {
     private Table list;
     private List<Ant> ants = new ArrayList<>();
     private List<Color> colors = new ArrayList<>();
+    private List<Point> changedCells = new ArrayList<>();
 
     public LangtonsAnt(int width, int height){
         this.width = width;
@@ -30,10 +32,12 @@ public class LangtonsAnt implements CelluralAutomata {
         {
             if(getElement(ant.getX(), ant.getY()) == 0) {
                 setElement(ant.getX(), ant.getY(), i);
+                changedCells.add(new Point(ant.getX(), ant.getY()));
                 turnLeft(ant);
             }
             else{
                 setElement(ant.getX(), ant.getY(), 0);
+                changedCells.add(new Point(ant.getX(), ant.getY()));
                 turnRight(ant);
             }
             i++;
@@ -128,21 +132,28 @@ public class LangtonsAnt implements CelluralAutomata {
 
         double scaleX = canvas.getWidth()/width;
         double scaleY = canvas.getHeight()/height;
-        int tmp = 0;
 
-        for (int i = 0; i < width; i++) {
-                for (int j = 0; j < height; j++) {
-                    tmp = getElement(i, j);
-                    if (tmp == 0) {
-                        canvas.getGraphicsContext2D().setFill(Color.BLACK);
-                        canvas.getGraphicsContext2D().fillRect(i * scaleX, j * scaleY, scaleX, scaleY);
-                    } else {
-                        canvas.getGraphicsContext2D().setFill(colors.get(tmp - 1));
-                        canvas.getGraphicsContext2D().fillRect(i * scaleX, j * scaleY, scaleX, scaleY);
-                    }
-
+        if(changedCells.size() == 0){
+            for(int i = 0; i < width; i++) {
+                for(int j = 0; j < height; j++){
+                    canvas.getGraphicsContext2D().setFill(Color.BLACK);
+                    canvas.getGraphicsContext2D().fillRect(i * scaleX, j * scaleY, scaleX, scaleY);
                 }
             }
+        }
+        else {
+            for (Point point : changedCells) {
+                if (getElement((int) point.getX(), (int) point.getY()) == 0) {
+                    canvas.getGraphicsContext2D().setFill(Color.BLACK);
+                    canvas.getGraphicsContext2D().fillRect((int) point.getX() * scaleX, (int) point.getY() * scaleY, scaleX, scaleY);
+                } else {
+                    canvas.getGraphicsContext2D().setFill(colors.get(getElement((int) point.getX(), (int) point.getY()) - 1));
+                    canvas.getGraphicsContext2D().fillRect((int) point.getX() * scaleX, (int) point.getY() * scaleY, scaleX, scaleY);
+                }
+            }
+        }
+
+        changedCells.clear();
 
     }
 
@@ -150,6 +161,7 @@ public class LangtonsAnt implements CelluralAutomata {
         ants.add(new Ant(x, y, direction));
         setElement(x, y, ants.size());
         colors.add(color);
+        changedCells.add(new Point(x, y));
     }
 
     public int getWidth() {

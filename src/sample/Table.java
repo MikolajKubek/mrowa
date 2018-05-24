@@ -19,4 +19,8 @@ public class Table {
     public void set(int index, int value){
         table[index] = value;
     }
+
+    public int size(){
+        return table.length;
+    }
 }
