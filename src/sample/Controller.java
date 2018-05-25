@@ -154,6 +154,7 @@ public class Controller {
     @FXML
     private void resizeCanvas(ActionEvent event)/*do zmiany*/{
 
+        handleEventStart(null);
         int width;
         int height;
         try {
