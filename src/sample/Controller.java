@@ -146,7 +146,7 @@ public class Controller {
         tuJestObrazek.setPrefWidth(prefferedWidth);
         tuJestObrazek.setPrefHeight(prefferedHeight);
         automata.editCanvas(displayCanvas);
-        if(timeline.getStatus() != Animation.Status.STOPPED){
+        if(startButton.getText().equals("Stop")){
             handleEventStart(null);
         }
     }
@@ -162,7 +162,6 @@ public class Controller {
             height = Integer.parseInt(textFieldHeight.getText());
         }
         catch(NumberFormatException exception){width = (int)prefferedWidth; height = (int)prefferedHeight;}
-
         textFieldWidth.setStyle("-fx-border-color: white");
         textFieldHeight.setStyle("-fx-border-color: white");
 
