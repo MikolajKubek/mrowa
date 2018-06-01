@@ -1,6 +1,6 @@
 package sample;
 
-public class Ant {
+public class Ant /*pojedyncza mrowka*/{
 
     private Direction direction;
     private int x;

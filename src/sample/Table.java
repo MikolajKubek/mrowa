@@ -1,6 +1,6 @@
 package sample;
 
-public class Table {
+public class Table /*klasa pozwalajaca na uzywanie tablicy jak listy*/{
 
     private int[] table;
 

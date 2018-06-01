@@ -32,8 +32,6 @@ public class Controller {
     private TextField textFieldHeight;
     @FXML
     private AnchorPane tuJestObrazek;
-    @FXML
-    private TextField textFieldPattern;
 
     private CelluralAutomata automata;
     private int fps = 10, prefferedWidth = 800, prefferedHeight = 520;
@@ -50,7 +48,7 @@ public class Controller {
 
 
     @FXML
-    private void initialize(){
+    private void initialize()/*tworzymy nową mrówkę langtona z domyślnymi rozmiarami i ustawiamy parametry gui*/{
         if (automata == null) {
             automata = new LangtonsAnt(800, 520);
         }
@@ -66,7 +64,7 @@ public class Controller {
 
         displayCanvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event) {
+            public void handle(MouseEvent event)/*dodawanie mrowki przy kliknieciu na canvasa*/ {
                 automata.addElement((int)(event.getX()/displayCanvas.getWidth()*automata.getWidth()), (int)(event.getY()/displayCanvas.getHeight()*automata.getHeight()), colorPicker.getValue(), direction);
                 automata.editCanvas(displayCanvas);
             }
@@ -74,7 +72,7 @@ public class Controller {
 
         displayCanvas.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event) {
+            public void handle(MouseEvent event)/*wyswietlanie polozenia na macierzy*/ {
                 mousePositionToolTip.setText("x: " + (int)(event.getX()/displayCanvas.getWidth()*automata.getWidth()) + " y: " + (int)(event.getY()/displayCanvas.getHeight()*automata.getHeight()));
                 mousePositionToolTip.show(displayCanvas, event.getScreenX() + 10, event.getScreenY() + 10);
             }
@@ -82,13 +80,13 @@ public class Controller {
 
         displayCanvas.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event) {
+            public void handle(MouseEvent event)/*ukrywamy polozenie po opuszczeniu canvasa*/ {
                 mousePositionToolTip.hide();
             }
         });
     }
     @FXML
-    private void handleEventStart(ActionEvent event) {
+    private void handleEventStart(ActionEvent event)/*klikniecie start/stop, zmiana stanu timera, tresci i koloru*/ {
         if (startButton.getText().equals("Start")) {
             fps = (int)slider.getValue();
             animationTimer.start();
@@ -104,7 +102,7 @@ public class Controller {
     }
 
     @FXML
-    private void handleEventNext(ActionEvent event){
+    private void handleEventNext(ActionEvent event)/*generowanie nastepnej klatki animacji*/{
             if (automata != null) {
                 for (int i = 0; i < fps; i++) {
                     automata.process();
@@ -116,7 +114,7 @@ public class Controller {
     }
 
     @FXML
-    private void directionButtonEvent(ActionEvent event){
+    private void directionButtonEvent(ActionEvent event)/*wybor poczatkowego kierunku dla nowej mrowki*/{
         switch (event.getSource().toString())
         {
             case "Button[id=buttonUp, styleClass=button]'^'":
@@ -152,9 +150,10 @@ public class Controller {
     }
 
     @FXML
-    private void resizeCanvas(ActionEvent event)/*do zmiany*/{
+    private void resizeCanvas(ActionEvent event)/*zmiana wielkosci macierzy i canvasa*/{
 
-        handleEventStart(null);
+        if(startButton.getText().equals("Stop"))
+            handleEventStart(null);
         int width;
         int height;
         try {

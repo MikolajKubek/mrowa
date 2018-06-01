@@ -18,7 +18,7 @@ public class LangtonsAnt implements CelluralAutomata {
     private List<Color> colors = new ArrayList<>();
     private List<Point> changedCells = new ArrayList<>();
 
-    public LangtonsAnt(int width, int height){
+    public LangtonsAnt(int width, int height)/*klasa odpowiedzialna za symulacje mrowki langtona*/{
         this.width = width;
         this.height = height;
 
@@ -26,7 +26,7 @@ public class LangtonsAnt implements CelluralAutomata {
 
     }
 
-    public void process(){
+    public void process()/*zapisywanie zmienionych przez mrowki elementow*/{
         int i = 1;
         for(Ant ant: ants)
         {
@@ -128,7 +128,7 @@ public class LangtonsAnt implements CelluralAutomata {
         list.set(x*height + y, value);
     }
 
-    public void editCanvas(Canvas canvas){
+    public void editCanvas(Canvas canvas)/*zapisywanie zmian wprowadzonych przez mrowke na canvasie*/{
 
         double scaleX = canvas.getWidth()/width;
         double scaleY = canvas.getHeight()/height;
